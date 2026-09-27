@@ -122,3 +122,9 @@ Pages CMS → Publications → Entries에서 각 논문의 Publication section�
 홈의 First- and Co-first-author Publications에는 First Author 또는 Co-first Author인 모든 논문이 연도순으로 표시됩니다. Co-author 및 빈 역할은 제외됩니다. 기존 featured와 type 값은 삭제하지 않았으며, 이제 홈 선택이나 페이지 분류를 결정하지 않습니다.
 
 기존 논문 JSON은 변경하지 않았습니다. 역할은 저자 순서로 자동 추측하지 않습니다. 분류가 비어 있는 논문은 논문 페이지 상단에 분류 대기 안내와 함께 유지되며, 분류를 지정하면 해당 구역으로 이동합니다. 빈 선택 필드는 빌드를 중단하지 않습니다.
+
+## 저자 강조 및 수상 이미지
+
+논문 Authors에 입력한 Juhyung Kim, J. Kim, J. T. Kim, Equal contribution은 자동으로 진한 굵기로 강조됩니다. 나머지 저자 텍스트는 일반 굵기로 유지되며 HTML 태그를 입력할 필요가 없습니다.
+
+Pages CMS → Honors & Awards에서 각 항목에 Award image와 Image alt text를 선택적으로 입력할 수 있습니다. 이미지는 데스크톱 최대 88×88px, 모바일 64×64px 영역 안에서 원래 비율을 유지하며 표시됩니다. 이미지가 없으면 이미지 자리도 만들지 않습니다. 대체 텍스트가 비어 있으면 수상 제목을 사용합니다.

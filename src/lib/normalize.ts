@@ -63,3 +63,7 @@ export type Entry = ReturnType<typeof normalizeEntries>['entries'][number];
 export const publicationGroups = ['International Journal Articles', 'Domestic Journals & Conference Contributions'] as const;
 export const isHomePublication = (publication: {authorRole: string}) =>
   publication.authorRole === 'First Author' || publication.authorRole === 'Co-first Author';
+
+export function normalizeAwards(value: unknown) {
+  return { entries: entries(value).map(p => fields(p, ['title','institution','date','description','image','imageAlt'])).filter(p => p.title.trim()) };
+}

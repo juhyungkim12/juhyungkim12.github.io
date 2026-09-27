@@ -91,6 +91,12 @@ content:
           - name: description
             label: Description
             type: text
+          - name: image
+            label: Award image (optional)
+            type: image
+          - name: imageAlt
+            label: Image alt text
+            type: string
   - name: research
     label: Research Experience
     type: file

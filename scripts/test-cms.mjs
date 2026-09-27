@@ -1,5 +1,12 @@
 import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';
-import {normalizeProfile,normalizeContact,normalizeCV,normalizeEntries,normalizePublications,normalizeResearch,normalizeSkills,isHomePublication} from '../src/lib/normalize.ts';
+import {normalizeProfile,normalizeContact,normalizeCV,normalizeEntries,normalizePublications,normalizeResearch,normalizeSkills,normalizeAwards,isHomePublication} from '../src/lib/normalize.ts';
+import {authorSegments} from '../src/lib/authors.ts';
+const authorText='A. Smith, Juhyung Kim*, J. Kim, J. T. Kim; Equal contribution; J. Kimball, NotJuhyung Kim';
+const segments=authorSegments(authorText);
+assert.equal(segments.map(s=>s.text).join(''),authorText);
+assert.deepEqual(segments.filter(s=>s.emphasized).map(s=>s.text),['Juhyung Kim','J. Kim','J. T. Kim','Equal contribution']);
+assert.deepEqual(authorSegments(null),[]);
+for(const image of [undefined,null,'','   '])assert.equal(normalizeAwards({entries:[{title:'Award',image}]}).entries[0].image,'');
 for(const empty of [undefined,null,'',{}]){
  assert.deepEqual(normalizeProfile(empty).interests,[]);
  assert.equal(normalizeProfile(empty).portrait,'');
@@ -45,10 +52,15 @@ assert.equal(hashSource(),before,'Actual CMS content changed');
 console.log('PASS: null/blank optional values and partially completed entries; Astro check, build and validate; actual content unchanged.');
 
 put('publications',{entries:[
- {title:'FIRST_ROLE_TEST',authorRole:'First Author',publicationGroup:'International Journal Articles',featured:false},
+ {title:'FIRST_ROLE_TEST',authors:authorText,authorRole:'First Author',publicationGroup:'International Journal Articles',featured:false},
  {title:'COFIRST_ROLE_TEST',authorRole:'Co-first Author',publicationGroup:'Domestic Journals & Conference Contributions'},
  {title:'COAUTHOR_ROLE_TEST',authorRole:'Co-author',publicationGroup:'International Journal Articles',featured:true},
  {title:'UNASSIGNED_ROLE_TEST',authorRole:null,publicationGroup:null,featured:true},
+]});
+put('awards',{entries:[
+ {title:'AWARD_WITH_IMAGE',image:'/favicon.svg',imageAlt:'Test award image',date:'2026'},
+ {title:'AWARD_WITHOUT_IMAGE'},
+ {title:'AWARD_NULL_IMAGE',image:null,imageAlt:null},
 ]});
 run([astro,'build']);run(['scripts/validate.mjs']);
 const home=fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8');
@@ -64,3 +76,11 @@ assert(grouped.indexOf('FIRST_ROLE_TEST')>international&&grouped.indexOf('FIRST_
 assert(grouped.indexOf('COFIRST_ROLE_TEST')>domestic);
 assert.equal(hashSource(),before);
 console.log('PASS: both publication sections, legacy entries preserved, Home includes only first/co-first authors regardless of featured flag.');
+
+assert.equal((home.match(/class="award-image"/g)||[]).length,1);
+assert(home.includes('alt="Test award image"'));
+assert(home.includes('AWARD_WITHOUT_IMAGE'));assert(home.includes('AWARD_NULL_IMAGE'));
+for(const name of ['Juhyung Kim','J. Kim','J. T. Kim','Equal contribution'])assert(grouped.includes('<strong class="author-emphasis">'+name+'</strong>'));
+assert(!grouped.includes('<strong class="author-emphasis">J. Kimball'));
+console.log('PASS: exact author emphasis and optional award images; no image markup for omitted/null fields.');
+console.log('Fixture preview directory: '+fixture);

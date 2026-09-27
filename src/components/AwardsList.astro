@@ -1,5 +1,15 @@
 ---
-import {awards,type Entry} from '../lib/content';
-const entries=awards.entries as Entry[];
+import { awards } from '../lib/content';
+const entries = awards.entries;
 ---
-{entries.length?<div class="timeline">{entries.map(entry=><article><span class="date">{entry.date}</span><div><h3>{entry.title}</h3>{entry.institution&&<p>{entry.institution}</p>}{entry.description&&<p class="muted">{entry.description}</p>}</div></article>)}</div>:<p class="empty-inline">Honors and awards will be added here.</p>}
+{entries.length ? <div class="timeline awards-list">
+  {entries.map(entry => <article class:list={['award-entry', {'has-image': Boolean(entry.image)}]}>
+    {entry.image && <img class="award-image" src={entry.image} alt={entry.imageAlt || entry.title} width="88" height="88" loading="lazy" />}
+    <div class="award-text">
+      {entry.date && <span class="date">{entry.date}</span>}
+      <h3>{entry.title}</h3>
+      {entry.institution && <p>{entry.institution}</p>}
+      {entry.description && <p class="muted">{entry.description}</p>}
+    </div>
+  </article>)}
+</div> : <p class="empty-inline">Honors and awards will be added here.</p>}

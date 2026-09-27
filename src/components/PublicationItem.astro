@@ -1,8 +1,9 @@
 ---
 import type { Publication } from '../lib/content';
 import Media from './Media.astro';
+import { authorSegments } from '../lib/authors';
 const { publication: p } = Astro.props as { publication: Publication };
-const parts = p.authors.split(/(Juhyung Kim)/g);
+const parts = authorSegments(p.authors);
 const doi = p.doi?.startsWith('https://') ? p.doi : p.doi ? 'https://doi.org/' + p.doi : undefined;
 ---
 <article class="publication" id={p.id}>
@@ -14,7 +15,7 @@ const doi = p.doi?.startsWith('https://') ? p.doi : p.doi ? 'https://doi.org/' +
       {p.status && <span>{p.status}</span>}
     </div>
     <h3>{p.title}</h3>
-    <p class="authors">{parts.map(part => part === 'Juhyung Kim' ? <strong>{part}</strong> : part)}</p>
+    <p class="authors">{parts.map(part => part.emphasized ? <strong class="author-emphasis">{part.text}</strong> : part.text)}</p>
     {p.journal && <p><em>{p.journal}</em>{p.details && ', ' + p.details}</p>}
     <div class="text-links">
       {doi ? <a href={doi}>DOI ↗</a> : p.demo && <a href={'#' + p.id + '-note'}>DOI · demo link ↗</a>}
