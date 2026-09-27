@@ -2,7 +2,7 @@
   "entries": [
     {
       "demo": false,
-      "id": "2026",
+      "id": "2026-origami-cable-climbing-soft-robot",
       "title": "An Origami-Based Cable-Climbing Soft Robot.",
       "authors": "J. Kim, X. Shi, and W. D. Wang*",
       "authorRole": "First Author",
@@ -20,7 +20,7 @@
     },
     {
       "demo": false,
-      "id": "2026",
+      "id": "2026-programming-actuation-micro-architectures",
       "title": "Programming Actuation in 3D-Printed Micro-Architectures via Interfacial Adhesion Control.",
       "authors": "X. Huan†, J. Kim†, Y. Park, S. Hu, J. Yang, N. Huang, F. Chen, Y. Liu, S. Cao, Z. Wang, H. C. Shum, B. P. Chan, D. Shin, J. T. Kim*\n† Equal contribution",
       "authorRole": "Co-first Author",
