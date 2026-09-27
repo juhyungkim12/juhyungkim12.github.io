@@ -1,3 +1,16 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "title": "B.S.",
+      "institution": "Mechanical Engineering, Hanyang University",
+      "date": "2025",
+      "description": "GPA: 4.12/4.5"
+    },
+    {
+      "title": "M.S.",
+      "institution": " Mechanical Engineering, Korea Advanced Institute of Science and Technology (KAIST)",
+      "date": "Mar. 2026 - Present",
+      "description": "Advisor: Prof. Ji Tae Kim"
+    }
+  ]
 }
