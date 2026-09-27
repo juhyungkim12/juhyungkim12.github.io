@@ -1,8 +1,8 @@
 {
   "entries": [
     {
-      "demo": true,
-      "id": "demo-publication",
+      "demo": false,
+      "id": "2026",
       "title": "An Origami-Based Cable-Climbing Soft Robot",
       "authors": "Juhyung Kim, Xiuxian Shi, and Wei Dawid Wang",
       "journal": "Soft Robotics",
@@ -13,7 +13,12 @@
       "alt": "Representative publication image placeholder",
       "featured": true,
       "type": "Journal Articles",
+      "status": "Published",
       "order": 1
+    },
+    {
+      "demo": false,
+      "featured": false
     }
   ]
 }
