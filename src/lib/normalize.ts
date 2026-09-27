@@ -32,7 +32,7 @@ function withIds<T extends {id: string}>(rows: T[], prefix: string): T[] {
 }
 export function normalizePublications(value: unknown) {
   return withIds(entries(value).map(p => ({
-    ...fields(p, ['id','title','authors','journal','details','doi','pdf','image','alt','status']),
+    ...fields(p, ['id','title','authors','journal','details','doi','pdf','image','alt','status','publicationGroup','authorRole']),
     type: text(p.type).trim() || 'Other publications',
     year: number(p.year), order: number(p.order), demo: p.demo === true, featured: p.featured === true,
   })).filter(p => p.title.trim()), 'publication')
@@ -59,3 +59,7 @@ export type Publication = ReturnType<typeof normalizePublications>[number];
 export type Research = ReturnType<typeof normalizeResearch>[number];
 export type Skill = ReturnType<typeof normalizeSkills>[number];
 export type Entry = ReturnType<typeof normalizeEntries>['entries'][number];
+
+export const publicationGroups = ['International Journal Articles', 'Domestic Journals & Conference Contributions'] as const;
+export const isHomePublication = (publication: {authorRole: string}) =>
+  publication.authorRole === 'First Author' || publication.authorRole === 'Co-first Author';

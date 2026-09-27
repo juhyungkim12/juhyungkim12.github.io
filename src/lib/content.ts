@@ -16,3 +16,5 @@ export const awards = normalizeEntries(awardsData);
 export const publications = normalizePublications(publicationData);
 export const research = normalizeResearch(researchData);
 export const skills = normalizeSkills(skillData);
+
+export { publicationGroups, isHomePublication } from './normalize';

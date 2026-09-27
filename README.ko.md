@@ -48,7 +48,7 @@ npm run preview
 - **About Me**: 학력과 연구 방향을 포함한 실제 소개문으로 교체하세요. 줄바꿈이 유지됩니다.
 - **Education / Honors & Awards**: Entries에 항목을 추가하거나 삭제하고 목록 순서를 바꾸세요. 학력 다음 수상 내역이 세로로 표시됩니다.
 - **Research Experience**: 항목별 `Unique ID`는 `microfabrication`처럼 영문 소문자·숫자·하이픈으로 입력하고 중복하지 마세요. Display order가 작을수록 위에 나옵니다. 실제 자료 입력 후 Example placeholder를 끄세요. 개별 상세 페이지는 생성되지 않습니다.
-- **Publications**: 정확한 제목, 저자, 유형, 연도, 학술지, 상태를 입력하세요. DOI는 `10.xxxx/...` 또는 `https://doi.org/...` 형식입니다. 저자 목록의 `Juhyung Kim`은 자동으로 굵게 표시됩니다. Featured를 켠 논문 중 최대 3개가 홈에 표시됩니다. 유형별 연도 내림차순이며 같은 연도에서는 Display order로 정렬합니다. 관련 연구에는 해당 논문의 Unique ID를 입력합니다.
+- **Publications**: 정확한 제목, 저자, 유형, 연도, 학술지, 상태를 입력하세요. DOI는 `10.xxxx/...` 또는 `https://doi.org/...` 형식입니다. 저자 목록의 `Juhyung Kim`은 자동으로 굵게 표시됩니다. 저자 역할이 First Author 또는 Co-first Author인 논문만 홈에 표시됩니다. Publication section으로 논문 페이지의 두 구역 중 하나를 선택합니다. 각 구역에서 연도 내림차순이며 같은 연도에서는 Display order로 정렬합니다. 관련 연구에는 해당 논문의 Unique ID를 입력합니다.
 - **Skills**: 실제로 경험한 기술만 추가하세요. 카테고리, 설명과 미디어를 등록하고 Example placeholder를 끄세요. Display order로 순서를 조절합니다.
 - **Contact Information**: 실제 이메일, Google Scholar 전체 URL, 선택적 ORCID 전체 URL을 입력하세요. 비어 있는 외부 프로필 링크는 표시하지 않습니다.
 - **CV PDF**: PDF를 선택하면 홈과 연락처의 다운로드 링크가 함께 바뀝니다. 파일이 없을 때는 다운로드 버튼을 가장하지 않습니다.
@@ -62,7 +62,7 @@ CMS가 특정 영상 업로드를 거절하면 GitHub Desktop으로 작은 MP4�
 
 ## 5. 현재 자리표시자
 
-확인된 정보는 이름과 KAIST Mechanical Engineering 소속뿐입니다. 학위, 날짜, 수상, 논문, 이메일, 숙련도와 연구 성과는 만들지 않았습니다. 실제 사진·영상·CV도 제공되지 않아 추가가 필요합니다. 연구 및 기술 항목은 명시적으로 예시이며 수정 또는 삭제할 수 있습니다. 논문에는 레이아웃 확인용 데모 1개가 있으며 홈에도 Featured로 표시됩니다. 실제 연구 실적이 아닙니다.
+확인된 정보는 이름과 KAIST Mechanical Engineering 소속뿐입니다. 학위, 날짜, 수상, 논문, 이메일, 숙련도와 연구 성과는 만들지 않았습니다. 실제 사진·영상·CV도 제공되지 않아 추가가 필요합니다. 연구 및 기술 항목은 명시적으로 예시이며 수정 또는 삭제할 수 있습니다. 논문에는 레이아웃 확인용 데모 1개가 있으며 홈 표시 여부는 저자 역할로 결정됩니다. 실제 연구 실적이 아닙니다.
 
 ## 6. 구조
 
@@ -83,7 +83,7 @@ CMS가 특정 영상 업로드를 거절하면 GitHub Desktop으로 작은 MP4�
 
 ## 데모 논문 교체
 
-Pages CMS → Publications에서 데모 항목의 제목·저자·학술지·연도·이미지를 실제 정보로 바꾸세요. DOI와 선택적 PDF를 등록한 뒤 Demo / placeholder entry를 끄면 데모 표시가 사라집니다. 홈에 표시하지 않으려면 Featured on Home을 끄세요. 항목을 삭제해도 됩니다. 데모의 DOI 링크는 허위 논문으로 연결하지 않고, 같은 항목의 안내문으로 이동합니다.
+Pages CMS → Publications에서 데모 항목의 제목·저자·학술지·연도·이미지를 실제 정보로 바꾸세요. DOI와 선택적 PDF를 등록한 뒤 Demo / placeholder entry를 끄면 데모 표시가 사라집니다. 홈에는 저자 역할을 First Author 또는 Co-first Author로 지정한 항목만 표시됩니다. 항목을 삭제해도 됩니다. 데모의 DOI 링크는 허위 논문으로 연결하지 않고, 같은 항목의 안내문으로 이동합니다.
 
 ## 홈 소개 섹션 변경
 
@@ -105,9 +105,20 @@ About Me 섹션과 해당 CMS 메뉴는 제거되었습니다. 홈 프로필 다
 
 CMS가 빈 필드를 JSON에서 생략하거나 null 또는 빈 문자열로 저장해도 됩니다. 사이트는 콘텐츠를 읽을 때만 배열에는 [], 텍스트·파일 경로에는 빈 문자열, 체크박스에는 false 기본값을 적용합니다. 원본 JSON은 자동 수정하지 않습니다.
 
-제목이 없는 논문·연구·학력·수상 항목과 이름이 없는 기술 항목은 입력 중인 항목으로 보고 화면에서 숨깁니다. 제목을 입력하면 나머지 선택 항목이 없어도 표시됩니다. 분류가 비어 있으면 Other publications / Other skills에 표시하고, ID가 없으면 화면용 임시 ID를 만듭니다. 관련 논문의 ID가 아직 존재하지 않으면 경고만 기록하고 해당 링크를 숨깁니다. 고정 링크가 필요한 항목은 나중에 고유 ID를 입력하세요.
+제목이 없는 논문·연구·학력·수상 항목과 이름이 없는 기술 항목은 입력 중인 항목으로 보고 화면에서 숨깁니다. 제목을 입력하면 나머지 선택 항목이 없어도 표시됩니다. 논문 분류가 비어 있으면 분류 대기 항목으로 표시하고, 기술 분류가 비어 있으면 Other skills에 표시하며, ID가 없으면 화면용 임시 ID를 만듭니다. 관련 논문의 ID가 아직 존재하지 않으면 경고만 기록하고 해당 링크를 숨깁니다. 고정 링크가 필요한 항목은 나중에 고유 ID를 입력하세요.
 
 입력한 값의 잘못된 자료형, 중복 ID, 잘못된 DOI, 존재하지 않는 파일 경로는 여전히 검증합니다. 빈 항목과 실제 잘못된 입력을 구분하기 위한 동작입니다.
 
 `npm run test:cms`는 실제 콘텐츠를 건드리지 않고 운영체제 임시 폴더의 별도 사본에서 전체 빈 데이터와 null·빈 문자열·미완성 목록을 사용해 타입 검사, 빌드, 검증을 실행합니다. Node.js 24를 사용하세요.
 
+
+## 논문 분류와 저자 역할
+
+Pages CMS → Publications → Entries에서 각 논문의 Publication section과 Juhyung Kim — author role을 선택하세요.
+
+- Publication section: International Journal Articles / Domestic Journals & Conference Contributions
+- Author role: First Author / Co-first Author / Co-author
+
+홈의 First- and Co-first-author Publications에는 First Author 또는 Co-first Author인 모든 논문이 연도순으로 표시됩니다. Co-author 및 빈 역할은 제외됩니다. 기존 featured와 type 값은 삭제하지 않았으며, 이제 홈 선택이나 페이지 분류를 결정하지 않습니다.
+
+기존 논문 JSON은 변경하지 않았습니다. 역할은 저자 순서로 자동 추측하지 않습니다. 분류가 비어 있는 논문은 논문 페이지 상단에 분류 대기 안내와 함께 유지되며, 분류를 지정하면 해당 구역으로 이동합니다. 빈 선택 필드는 빌드를 중단하지 않습니다.

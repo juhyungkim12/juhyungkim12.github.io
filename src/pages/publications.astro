@@ -1,4 +1,25 @@
 ---
-import Layout from '../layouts/Layout.astro';import PublicationItem from '../components/PublicationItem.astro';import {publications} from '../lib/content';const types=['Journal Articles','Conference Proceedings','Conference Presentations','Preprints',...new Set(publications.map(p=>p.type).filter(type=>!['Journal Articles','Conference Proceedings','Conference Presentations','Preprints'].includes(type)))];
+import Layout from '../layouts/Layout.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import { publications, publicationGroups } from '../lib/content';
+// Keep legacy / partially edited entries visible without guessing their category.
+const unassigned = publications.filter(p => !publicationGroups.some(group => group === p.publicationGroup));
 ---
-<Layout title="Publications | Juhyung Kim"><div class="page-heading"><p class="eyebrow">ACADEMIC OUTPUT</p><h1>Publications</h1><p>Journal articles, conference contributions, and preprints.</p></div>{publications.length?types.map(type=>{const items=publications.filter(p=>p.type===type);return items.length>0&&<section class="section publication-group"><h2>{type}</h2>{items.map(publication=><PublicationItem publication={publication}/>)}</section>}):<div class="empty-state publication-empty"><span class="eyebrow">PUBLICATION RECORD</span><h2>Publications will be added here.</h2><p>Verified citations and accompanying research images will be listed as they become available.</p></div>}</Layout>
+<Layout title="Publications | Juhyung Kim">
+  <div class="page-heading">
+    <p class="eyebrow">ACADEMIC OUTPUT</p>
+    <h1>Publications</h1>
+    <p>International journal articles, domestic journals, and conference contributions.</p>
+  </div>
+  {unassigned.length > 0 && <div class="section publication-group">
+    <p class="muted">The following publications are awaiting classification.</p>
+    {unassigned.map(publication => <PublicationItem publication={publication} />)}
+  </div>}
+  {publicationGroups.map(group => {
+    const items = publications.filter(p => p.publicationGroup === group);
+    return <section class="section publication-group">
+      <h2>{group}</h2>
+      {items.length ? items.map(publication => <PublicationItem publication={publication} />) : <p class="empty-inline">Publications will be added here.</p>}
+    </section>;
+  })}
+</Layout>

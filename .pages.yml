@@ -191,6 +191,21 @@ content:
           - name: authors
             label: Authors (include Juhyung Kim exactly)
             type: text
+          - name: authorRole
+            label: Juhyung Kim — author role (controls Home)
+            type: select
+            options:
+              values:
+                - First Author
+                - Co-first Author
+                - Co-author
+          - name: publicationGroup
+            label: Publication section
+            type: select
+            options:
+              values:
+                - International Journal Articles
+                - Domestic Journals & Conference Contributions
           - name: journal
             label: Journal / venue
             type: string
@@ -216,10 +231,11 @@ content:
             label: Image / video description
             type: string
           - name: featured
-            label: Featured on Home
+            label: Legacy featured flag (no longer controls Home)
             type: boolean
+            readonly: true
           - name: type
-            label: Publication type
+            label: Publication type (metadata only)
             type: select
             options:
               values:

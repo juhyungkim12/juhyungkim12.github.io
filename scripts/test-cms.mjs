@@ -1,5 +1,5 @@
 import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';
-import {normalizeProfile,normalizeContact,normalizeCV,normalizeEntries,normalizePublications,normalizeResearch,normalizeSkills} from '../src/lib/normalize.ts';
+import {normalizeProfile,normalizeContact,normalizeCV,normalizeEntries,normalizePublications,normalizeResearch,normalizeSkills,isHomePublication} from '../src/lib/normalize.ts';
 for(const empty of [undefined,null,'',{}]){
  assert.deepEqual(normalizeProfile(empty).interests,[]);
  assert.equal(normalizeProfile(empty).portrait,'');
@@ -14,6 +14,10 @@ const partial=normalizePublications({entries:[null,{}, {title:'Draft',authors:nu
 assert.equal(partial.length,2);assert.equal(partial[0].title,'Existing');assert.equal(partial[1].authors,'');assert.equal(partial[1].type,'Other publications');assert.equal(new Set(partial.map(p=>p.id)).size,2);
 assert.deepEqual(normalizeResearch({entries:[{title:'Draft',media:[null,{}, {image:''}],related:null} ]})[0].media,[]);
 assert.equal(normalizeSkills({entries:[{name:'Draft',category:null} ]})[0].category,'Other skills');
+for (const role of [undefined,null,'','First Author','Co-first Author','Co-author']) {
+ const p=normalizePublications({entries:[{title:'Role test',authorRole:role,featured:true}]})[0];
+ assert.equal(isHomePublication(p),role==='First Author'||role==='Co-first Author');
+}
 console.log('PASS: optional-field normalization, partial entries, sort order, fallback IDs.');
 // Integration tests always modify isolated copies, never the actual CMS data.
 const hashSource=()=>JSON.stringify(fs.readdirSync('src/data').sort().map(name=>[name,fs.readFileSync('src/data/'+name,'utf8')]));
@@ -36,6 +40,27 @@ put('publications',{entries:[null,{}, {title:'Fixture publication',authors:null,
 put('research',{entries:[null,{}, {title:'Fixture research',media:[null,{}, {image:'',video:null}],related:[null,'missing-draft'],order:''}]});
 put('skills',{entries:[null,{}, {name:'Fixture skill',category:null,media:null}]});
 run([astro,'check']);run([astro,'build']);run(['scripts/validate.mjs']);
-const html=fs.readFileSync(path.join(fixture,'dist/publications/index.html'),'utf8');assert(html.includes('Fixture publication'));assert(html.includes('Other publications'));assert(!html.includes('href="undefined"'));
+const html=fs.readFileSync(path.join(fixture,'dist/publications/index.html'),'utf8');assert(html.includes('Fixture publication'));assert(html.includes('awaiting classification'));assert(html.includes('International Journal Articles'));assert(html.includes('Domestic Journals &amp; Conference Contributions'));const initialHome=fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8');assert(!initialHome.includes('Fixture publication'));assert(!html.includes('href="undefined"'));
 assert.equal(hashSource(),before,'Actual CMS content changed');
 console.log('PASS: null/blank optional values and partially completed entries; Astro check, build and validate; actual content unchanged.');
+
+put('publications',{entries:[
+ {title:'FIRST_ROLE_TEST',authorRole:'First Author',publicationGroup:'International Journal Articles',featured:false},
+ {title:'COFIRST_ROLE_TEST',authorRole:'Co-first Author',publicationGroup:'Domestic Journals & Conference Contributions'},
+ {title:'COAUTHOR_ROLE_TEST',authorRole:'Co-author',publicationGroup:'International Journal Articles',featured:true},
+ {title:'UNASSIGNED_ROLE_TEST',authorRole:null,publicationGroup:null,featured:true},
+]});
+run([astro,'build']);run(['scripts/validate.mjs']);
+const home=fs.readFileSync(path.join(fixture,'dist/index.html'),'utf8');
+assert(home.includes('First- and Co-first-author Publications'));
+assert(home.includes('FIRST_ROLE_TEST'));assert(home.includes('COFIRST_ROLE_TEST'));
+assert(!home.includes('COAUTHOR_ROLE_TEST'));assert(!home.includes('UNASSIGNED_ROLE_TEST'));
+const grouped=fs.readFileSync(path.join(fixture,'dist/publications/index.html'),'utf8');
+assert.equal((grouped.match(/<h2>/g)||[]).length,2);
+const international=grouped.indexOf('<h2>International Journal Articles');
+const domestic=grouped.indexOf('<h2>Domestic Journals');
+assert(grouped.indexOf('UNASSIGNED_ROLE_TEST')<international);
+assert(grouped.indexOf('FIRST_ROLE_TEST')>international&&grouped.indexOf('FIRST_ROLE_TEST')<domestic);
+assert(grouped.indexOf('COFIRST_ROLE_TEST')>domestic);
+assert.equal(hashSource(),before);
+console.log('PASS: both publication sections, legacy entries preserved, Home includes only first/co-first authors regardless of featured flag.');
