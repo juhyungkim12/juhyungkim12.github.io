@@ -11,12 +11,12 @@ const doi = p.doi?.startsWith('https://') ? p.doi : p.doi ? 'https://doi.org/' +
   <div>
     <div class="publication-meta">
       {p.demo && <span class="demo-badge">DEMO · PLACEHOLDER</span>}
-      {p.year && <span>{p.year}{p.demo ? ' · example year' : ''}</span>}
+      {p.year && <span class="publication-year">{p.year}{p.demo ? ' · example year' : ''}</span>}
       {p.status && <span>{p.status}</span>}
     </div>
     <h3>{p.title}</h3>
     <p class="authors">{parts.map(part => part.emphasized ? <strong class="author-emphasis">{part.text}</strong> : part.text)}</p>
-    {p.journal && <p><em>{p.journal}</em>{p.details && ', ' + p.details}</p>}
+    {p.journal && <p><strong class="publication-journal"><em>{p.journal}</em></strong>{p.details && ', ' + p.details}</p>}
     <div class="text-links">
       {doi ? <a href={doi}>DOI ↗</a> : p.demo && <a href={'#' + p.id + '-note'}>DOI · demo link ↗</a>}
       {p.pdf && <a href={p.pdf}>PDF ↓</a>}

@@ -125,6 +125,6 @@ Pages CMS → Publications → Entries에서 각 논문의 Publication section�
 
 ## 저자 강조 및 수상 이미지
 
-논문 Authors에 입력한 Juhyung Kim, J. Kim, J. T. Kim, Equal contribution은 자동으로 진한 굵기로 강조됩니다. 나머지 저자 텍스트는 일반 굵기로 유지되며 HTML 태그를 입력할 필요가 없습니다.
+논문 Authors에 입력한 저자 항목 전체가 Juhyung Kim 또는 J. Kim과 정확히 일치하면 바로 뒤의 † 등 각주 기호까지 진한 굵기로 강조됩니다. J. T. Kim은 다른 저자이므로 강조하지 않습니다. Equal contribution 문구는 별도로 굵게 표시합니다. 나머지 저자 텍스트는 일반 굵기로 유지되며 HTML 태그를 입력할 필요가 없습니다.
 
 Pages CMS → Honors & Awards에서 각 항목에 Award image와 Image alt text를 선택적으로 입력할 수 있습니다. 이미지는 데스크톱 최대 88×88px, 모바일 64×64px 영역 안에서 원래 비율을 유지하며 표시됩니다. 이미지가 없으면 이미지 자리도 만들지 않습니다. 대체 텍스트가 비어 있으면 수상 제목을 사용합니다.

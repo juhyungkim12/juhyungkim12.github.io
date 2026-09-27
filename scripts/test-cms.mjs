@@ -1,10 +1,17 @@
 import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';
 import {normalizeProfile,normalizeContact,normalizeCV,normalizeEntries,normalizePublications,normalizeResearch,normalizeSkills,normalizeAwards,isHomePublication} from '../src/lib/normalize.ts';
 import {authorSegments} from '../src/lib/authors.ts';
+const suppliedAuthors='X. Huan†, J. Kim†, Y. Park, S. Hu, J. Yang, N. Huang, F. Chen, Y. Liu, S. Cao, Z. Wang, H. C. Shum, B. P. Chan, D. Shin, J. T. Kim* † Equal contribution';
+for(const line of [suppliedAuthors,suppliedAuthors.replace('* †','*\n†')]) {
+ const parsed=authorSegments(line);
+ assert.deepEqual(parsed.filter(s=>s.emphasized).map(s=>s.text),['J. Kim†','Equal contribution']);
+ assert.equal(parsed.map(s=>s.text).join(''),line);
+}
+for(const other of ['J. T. Kim*','A. J. Kim','J. Kimball','J. Kim Smith'])assert(!authorSegments(other).some(s=>s.emphasized));
 const authorText='A. Smith, Juhyung Kim*, J. Kim, J. T. Kim; Equal contribution; J. Kimball, NotJuhyung Kim';
 const segments=authorSegments(authorText);
 assert.equal(segments.map(s=>s.text).join(''),authorText);
-assert.deepEqual(segments.filter(s=>s.emphasized).map(s=>s.text),['Juhyung Kim','J. Kim','J. T. Kim','Equal contribution']);
+assert.deepEqual(segments.filter(s=>s.emphasized).map(s=>s.text),['Juhyung Kim*','J. Kim','Equal contribution']);
 assert.deepEqual(authorSegments(null),[]);
 for(const image of [undefined,null,'','   '])assert.equal(normalizeAwards({entries:[{title:'Award',image}]}).entries[0].image,'');
 for(const empty of [undefined,null,'',{}]){
@@ -52,7 +59,7 @@ assert.equal(hashSource(),before,'Actual CMS content changed');
 console.log('PASS: null/blank optional values and partially completed entries; Astro check, build and validate; actual content unchanged.');
 
 put('publications',{entries:[
- {title:'FIRST_ROLE_TEST',authors:authorText,authorRole:'First Author',publicationGroup:'International Journal Articles',featured:false},
+ {title:'FIRST_ROLE_TEST',authors:authorText,journal:'Fixture Journal',authorRole:'First Author',publicationGroup:'International Journal Articles',featured:false},
  {title:'COFIRST_ROLE_TEST',authorRole:'Co-first Author',publicationGroup:'Domestic Journals & Conference Contributions'},
  {title:'COAUTHOR_ROLE_TEST',authorRole:'Co-author',publicationGroup:'International Journal Articles',featured:true},
  {title:'UNASSIGNED_ROLE_TEST',authorRole:null,publicationGroup:null,featured:true},
@@ -80,7 +87,10 @@ console.log('PASS: both publication sections, legacy entries preserved, Home inc
 assert.equal((home.match(/class="award-image"/g)||[]).length,1);
 assert(home.includes('alt="Test award image"'));
 assert(home.includes('AWARD_WITHOUT_IMAGE'));assert(home.includes('AWARD_NULL_IMAGE'));
-for(const name of ['Juhyung Kim','J. Kim','J. T. Kim','Equal contribution'])assert(grouped.includes('<strong class="author-emphasis">'+name+'</strong>'));
+for(const name of ['Juhyung Kim*','J. Kim','Equal contribution'])assert(grouped.includes('<strong class="author-emphasis">'+name+'</strong>'));
 assert(!grouped.includes('<strong class="author-emphasis">J. Kimball'));
 console.log('PASS: exact author emphasis and optional award images; no image markup for omitted/null fields.');
 console.log('Fixture preview directory: '+fixture);
+
+assert(!grouped.includes('<strong class="author-emphasis">J. T. Kim'));
+assert(grouped.includes('<strong class="publication-journal"><em>Fixture Journal</em></strong>'));
