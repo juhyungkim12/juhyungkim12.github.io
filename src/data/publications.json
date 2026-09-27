@@ -2,9 +2,11 @@
   "entries": [
     {
       "demo": false,
-      "id": "2026",
-      "title": "An Origami-Based Cable-Climbing Soft Robot",
-      "authors": "Juhyung Kim, Xiuxian Shi, and Wei Dawid Wang",
+      "id": "2026-origami-cable-climbing-soft-robot",
+      "title": "An Origami-Based Cable-Climbing Soft Robot.",
+      "authors": "J. Kim, X. Shi, and W. D. Wang*",
+      "authorRole": "First Author",
+      "publicationGroup": "International Journal Articles",
       "journal": "Soft Robotics",
       "year": 2026,
       "details": "Volume 13, Issue 4",
@@ -18,7 +20,18 @@
     },
     {
       "demo": false,
-      "featured": false
+      "id": "2026-programming-actuation-micro-architectures",
+      "title": "Programming Actuation in 3D-Printed Micro-Architectures via Interfacial Adhesion Control.",
+      "authors": "X. Huan†, J. Kim†, Y. Park, S. Hu, J. Yang, N. Huang, F. Chen, Y. Liu, S. Cao, Z. Wang, H. C. Shum, B. P. Chan, D. Shin, J. T. Kim*\n† Equal contribution",
+      "authorRole": "Co-first Author",
+      "publicationGroup": "International Journal Articles",
+      "journal": "Advanced Materials Technologies",
+      "year": 2026,
+      "doi": "10.1002/admt.71373",
+      "image": "/media/스크린샷 2026-09-27 191312.png",
+      "featured": false,
+      "type": "Journal Articles",
+      "status": "Accepted"
     }
   ]
 }
