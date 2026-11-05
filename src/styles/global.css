@@ -44,6 +44,7 @@
 @media (min-width: 951px) {
   .profile-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr); gap: 44px; }
   .profile-hero > .profile { align-self: start; }
+  .hero-research .featured-media { width: 90%; }
   /* Extend the media into the outer gutter without resizing the profile column. */
   .hero-research { margin-inline-start: -18px; margin-inline-end: calc(-1 * clamp(10px, 50vw - 568px, 360px)); }
 }
