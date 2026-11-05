@@ -10,7 +10,7 @@ const fields = <K extends string>(value: unknown, keys: readonly K[]): Record<K,
   return Object.fromEntries(keys.map(key => [key, text(source[key])])) as Record<K, string>;
 };
 export function normalizeProfile(value: unknown) {
-  return { ...fields(value, ['name', 'affiliation', 'introduction', 'portrait', 'portraitAlt', 'video', 'poster', 'caption']), interests: strings(object(value).interests) };
+  return { ...fields(value, ['name', 'affiliation', 'introduction', 'portrait', 'portraitAlt', 'videoTitle', 'video', 'poster', 'caption']), interests: strings(object(value).interests) };
 }
 export const normalizeContact = (value: unknown) => fields(value, ['email', 'scholar', 'orcid']);
 export const normalizeCV = (value: unknown) => fields(value, ['file']);

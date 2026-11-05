@@ -27,6 +27,9 @@ content:
       - name: portraitAlt
         label: Portrait description
         type: string
+      - name: videoTitle
+        label: Featured video title
+        type: string
       - name: video
         label: MP4 video
         type: file
