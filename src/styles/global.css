@@ -63,3 +63,10 @@
 @media (hover: none) and (pointer: coarse) {
   .featured-media .video-toggle { width: 40px; height: 40px; }
 }
+
+/* Keep the two images on a shared top edge even when the video title wraps. */
+@media (min-width: 761px) {
+  .profile-hero:has(.hero-video-title) { padding-top: 24px; row-gap: 0; }
+  .profile-hero:has(.hero-video-title) > .profile { grid-column: 1; grid-row: 2; align-self: start; }
+  .hero-research:has(.hero-video-title) { grid-column: 2; grid-row: 1 / span 2; display: grid; grid-template-rows: subgrid; align-self: stretch; align-items: start; }
+}
